@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+	<canvas id="myCanvas" width="800" height="400" style="border:1px solid #d3d3d3;">
+		Your browser does not support the canvas element.
+	</canvas>
+
+	<button id="myButton" onClick="jumpBall(2)">Jump</canvas>
+
+		<script>
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+			var circleWidth = canvas.width / 6;
+			var circleHeight = canvas.height / 1.5;
+
+			function drawLine(fromX, fromY, toX, toY) {
+				ctx.beginPath();
+				ctx.moveTo(fromX, fromY);
+				ctx.lineTo(toX, toY);
+				ctx.stroke();
+			}
+
+			function drawCircle(width, height, radius, startAngle, endAngle, color) {
+				ctx.beginPath();
+				ctx.arc(width, height, radius, startAngle, endAngle);
+				if (color) {
+					ctx.fillStyle = color;
+					ctx.fill();
+				}
+				ctx.stroke();
+			}
+
+			//drawLine(0,0,200,100);
+			var angleOne = 1.5;
+			var angleTwo = 0.5;
+
+			function rotateCircle(byHowMuch) {
+
+				angleOne += byHowMuch
+				angleTwo += byHowMuch
+
+				if (angleOne > 2) {
+					angleOne = 0;
+				}
+				if (angleTwo > 2) {
+					angleTwo = 0;
+				}
+
+				drawRect(50, 80, circleWidth + 40, canvas.height, "white");
+				drawCircle(circleWidth, circleHeight, 80, angleOne * Math.PI, angleTwo * Math.PI, "red");
+				drawCircle(circleWidth, circleHeight, 80, angleTwo * Math.PI, angleOne * Math.PI, "yellow");
+				drawCircle(circleWidth, circleHeight, 40, 0, 2 * Math.PI, "white");
+			}
+
+			function jumpBall(byHowMuch) {
+				circleHeight = canvas.height / byHowMuch;
+				setTimeout(function () {
+					circleHeight = canvas.height / 1.5;
+				}, 500);
+			}
+
+			function drawRect(x, y, width, height, color) {
+				ctx.beginPath();
+				ctx.rect(x, y, width, height);
+				if (color) {
+					ctx.fillStyle = color;
+					ctx.fill();
+				}
+			}
+
+
+			var moveRectX = 200;
+
+			function moveRect(byHowMuch) {
+
+				moveRectX -= byHowMuch;
+
+				if (moveRectX <= -410) {
+					moveRectX = 800;
+				}
+
+				drawRect(0, 347, 800, 100, "#fdd285");
+				drawRect(moveRectX, 347, 400, 100, "#000000");
+			}
+
+			setInterval(function () {
+				rotateCircle(0.1);
+				moveRect(100);
+			}, 100);
+
+		</script>
+
+</body>
+
+</html>
